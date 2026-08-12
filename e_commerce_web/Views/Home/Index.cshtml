@@ -1,8 +1,139 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<div class="full-width hero-section">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <span class="badge bg-primary rounded-pill px-3 py-2 mb-3 shadow-sm">New Collection 2026</span>
+                <h1 class="hero-title">Discover <span>Premium</span> Quality Products</h1>
+                <p class="hero-subtitle">Elevate your lifestyle with our curated selection of luxury goods and everyday essentials.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="btn-primary-custom">Shop Collection</a>
+                    <a href="#" class="btn-outline-custom">View Trends</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="~/images/hero_banner_1786513969361.png" alt="Hero Banner" class="img-fluid rounded-4 shadow-lg" style="object-fit: cover; border: 4px solid white;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Categories -->
+<div class="container mt-5 pt-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Shop by Category</h2>
+        <p class="text-muted">Explore our wide range of categories</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="category-card">
+                <div class="category-icon">📱</div>
+                <h3 class="category-title">Electronics</h3>
+                <p class="text-muted small mt-2">120+ Products</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card">
+                <div class="category-icon">👕</div>
+                <h3 class="category-title">Apparel</h3>
+                <p class="text-muted small mt-2">350+ Products</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card">
+                <div class="category-icon">🏡</div>
+                <h3 class="category-title">Home & Living</h3>
+                <p class="text-muted small mt-2">85+ Products</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trending Products -->
+<div class="container mt-5 pt-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Trending Now</h2>
+            <p class="text-muted mb-0">Top picks for you</p>
+        </div>
+        <a href="#" class="text-primary fw-bold text-decoration-none">View All &rarr;</a>
+    </div>
+    
+    <div class="row g-4">
+        <!-- Product 1 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="product-card">
+                <div class="product-badge">Best Seller</div>
+                <div class="product-img-wrapper">
+                    <img src="~/images/product_headphones_1786513986112.png" alt="Wireless Headphones" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Electronics</div>
+                    <h3 class="product-title">SonicPro Wireless Headphones</h3>
+                    <div class="product-bottom">
+                        <p class="product-price">$299.00</p>
+                        <button class="btn-add-cart" aria-label="Add to cart">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product 2 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="product-card">
+                <div class="product-badge bg-dark">New Arrival</div>
+                <div class="product-img-wrapper">
+                    <img src="~/images/product_watch_1786513997219.png" alt="Smart Watch" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Accessories</div>
+                    <h3 class="product-title">Lumière Smart Watch Series X</h3>
+                    <div class="product-bottom">
+                        <p class="product-price">$349.00</p>
+                        <button class="btn-add-cart" aria-label="Add to cart">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product 3 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="product-card">
+                <div class="product-badge" style="background-color: var(--primary-color);">Trending</div>
+                <div class="product-img-wrapper">
+                    <img src="~/images/product_sneakers_1786514012011.png" alt="Sneakers" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Footwear</div>
+                    <h3 class="product-title">AeroGlide Urban Sneakers</h3>
+                    <div class="product-bottom">
+                        <p class="product-price">$129.00</p>
+                        <button class="btn-add-cart" aria-label="Add to cart">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Newsletter Section -->
+<div class="container">
+    <div class="newsletter-section shadow-lg">
+        <h2 class="newsletter-title">Join Our Newsletter</h2>
+        <p class="newsletter-subtitle">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+        <div class="newsletter-input-group shadow-sm">
+            <input type="email" class="newsletter-input" placeholder="Enter your email address">
+            <button class="newsletter-btn">Subscribe</button>
+        </div>
+    </div>
 </div>
