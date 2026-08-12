@@ -9,25 +9,25 @@ using e_commerce_web.Data;
 
 namespace e_commerce_web.Controllers
 {
-    public class LoginController : Controller
+    public class SignInController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly PasswordHasher<User> _passwordHasher = new();
 
-        public LoginController(ApplicationDbContext context)
+        public SignInController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             if (!ModelState.IsValid)
             {

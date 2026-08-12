@@ -2,7 +2,7 @@
 
 namespace e_commerce_web.Models
 {
-    public class LoginViewModel
+    public class SignInViewModel
     {
         [Required(ErrorMessage = "Email address is required.")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
