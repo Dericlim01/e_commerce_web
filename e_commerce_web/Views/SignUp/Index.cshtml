@@ -1,0 +1,66 @@
+@model e_commerce_web.Models.SignUpViewModel
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="full-width d-flex align-items-center" style="min-height: calc(100vh - 150px); background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); margin-top: -16px; padding: 60px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5 col-xl-4">
+                <div class="card border-0" style="border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold mb-2" style="color: var(--text-main); letter-spacing: -0.5px;">Create Account</h2>
+                            <p class="text-muted">Join us and start shopping</p>
+                        </div>
+
+                        <form asp-controller="SignUp" asp-action="SignUp" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+
+                            <!-- Name Input -->
+                            <div class="form-floating mb-4">
+                                <input asp-for="Name" class="form-control" placeholder="John Doe" style="border-radius: var(--border-radius-sm);" />
+                                <label asp-for="Name" class="text-muted">Full Name</label>
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Email Input -->
+                            <div class="form-floating mb-4">
+                                <input asp-for="Email" class="form-control" placeholder="name@example.com" style="border-radius: var(--border-radius-sm);" />
+                                <label asp-for="Email" class="text-muted"></label>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="form-floating mb-4">
+                                <input asp-for="Password" class="form-control" placeholder="Password" style="border-radius: var(--border-radius-sm);" />
+                                <label asp-for="Password" class="text-muted"></label>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                            
+                            <!-- Confirm Password Input -->
+                            <div class="form-floating mb-4">
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" style="border-radius: var(--border-radius-sm);" />
+                                <label asp-for="ConfirmPassword" class="text-muted"></label>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn-primary-custom w-100 py-3 mb-3 text-center d-block" style="border-radius: var(--border-radius-sm);">
+                                Sign Up
+                            </button>
+                            
+                            <div class="text-center mt-4">
+                                <p class="text-muted small mb-0">Already have an account? <a asp-controller="SignIn" asp-action="Index" class="text-primary text-decoration-none fw-semibold">Sign in</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
