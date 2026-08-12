@@ -55,7 +55,7 @@ namespace e_commerce_web.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "SignIn");
         }
     }
 }
