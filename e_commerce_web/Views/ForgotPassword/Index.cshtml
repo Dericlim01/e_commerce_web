@@ -1,0 +1,38 @@
+@model e_commerce_web.Models.ForgotPasswordViewModel
+@{
+    ViewData["Title"] = "Forgot Password";
+}
+
+<div class="full-width d-flex align-items-center" style="min-height: calc(100vh - 150px); background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); margin-top: -16px; padding: 60px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5 col-xl-4">
+                <div class="card border-0" style="border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold mb-2" style="color: var(--text-main); letter-spacing: -0.5px;">Forgot Password</h2>
+                            <p class="text-muted">Enter your email to reset your password</p>
+                        </div>
+
+                        <form asp-controller="ForgotPassword" asp-action="Index" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+
+                            <!-- Email Input -->
+                            <div class="form-floating mb-4">
+                                <input asp-for="Email" class="form-control" placeholder="Email" />
+                                <label asp-for="Email" class="form-label">Email</label>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2">Reset Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

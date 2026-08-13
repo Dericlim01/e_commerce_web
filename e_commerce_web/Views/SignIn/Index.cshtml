@@ -37,7 +37,7 @@
                                     <input asp-for="RememberMe" class="form-check-input" id="rememberMe" style="cursor: pointer;" />
                                     <label asp-for="RememberMe" class="form-check-label text-secondary small" for="rememberMe" style="cursor: pointer;"></label>
                                 </div>
-                                <a href="#" class="text-primary text-decoration-none small fw-semibold">Forgot password?</a>
+                                <a asp-controller="ForgotPassword" asp-action="Index" class="text-primary text-decoration-none small fw-semibold">Forgot password?</a>
                             </div>
 
                             <!-- Submit Button -->

@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Email Sent";
+}
+
+<div class="full-width d-flex align-items-center" style="min-height: calc(100vh - 150px); background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); margin-top: -16px; padding: 60px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5 col-xl-4">
+                <div class="card border-0" style="border-radius: var(--border-radius-lg); box-shadow: var(--shadow-lg); overflow: hidden;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-check-circle text-success" style="font-size: 3rem;"></i>
+                        </div>
+                        <h2 class="fw-bold mb-3" style="color: var(--text-main); letter-spacing: -0.5px;">Email Sent!</h2>
+                        <p class="text-muted mb-4">
+                            If an account with that email address exists, you will receive a password reset link shortly.
+                        </p>
+                        <a asp-controller="SignIn" asp-action="Index" class="btn btn-primary w-100 py-2">Return to Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
