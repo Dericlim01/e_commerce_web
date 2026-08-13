@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Shipping Policy";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 bg-white p-5 rounded-4 shadow-sm">
+            <h1 class="fw-bold mb-4">Shipping Policy</h1>
+            <p class="text-muted mb-4">Last updated: August 2026</p>
+
+            <div class="policy-content text-muted">
+                <h4 class="fw-bold text-dark mt-4">1. Order Processing Time</h4>
+                <p>All orders are processed within 1 to 2 business days (excluding weekends and holidays) after receiving your order confirmation email. You will receive another notification when your order has shipped.</p>
+
+                <h4 class="fw-bold text-dark mt-4">2. Domestic Shipping Rates and Estimates</h4>
+                <p>Shipping charges for your order will be calculated and displayed at checkout.</p>
+                <ul>
+                    <li><strong>Standard Shipping:</strong> 3-5 business days. Free for orders over $50. Otherwise, flat rate of $5.99.</li>
+                    <li><strong>Expedited Shipping:</strong> 1-2 business days. Flat rate of $15.99.</li>
+                </ul>
+
+                <h4 class="fw-bold text-dark mt-4">3. International Shipping</h4>
+                <p>We offer international shipping to most countries. Shipping charges for your order will be calculated and displayed at checkout based on the destination and weight of the package. Delivery times vary by destination, typically taking 7-21 business days.</p>
+                <p>Your order may be subject to import duties and taxes (including VAT), which are incurred once a shipment reaches your destination country. Lumière is not responsible for these charges if they are applied and are your responsibility as the customer.</p>
+
+                <h4 class="fw-bold text-dark mt-4">4. How do I check the status of my order?</h4>
+                <p>When your order has shipped, you will receive an email notification from us which will include a tracking number you can use to check its status. Please allow 48 hours for the tracking information to become available.</p>
+                <p>If you haven't received your order within 5 days of receiving your shipping confirmation email, please <a asp-action="ContactUs" class="text-primary text-decoration-none">contact us</a> with your name and order number, and we will look into it for you.</p>
+            </div>
+        </div>
+    </div>
+</div>

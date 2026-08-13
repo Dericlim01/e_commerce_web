@@ -27,7 +27,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Support" asp-action="Faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Support" asp-action="ContactUs">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Support" asp-action="AboutUs">About Us</a>
                         </li>
                     </ul>
                 </div>
@@ -66,9 +72,34 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted mt-5 pt-4 pb-4 bg-light">
         <div class="container">
-            &copy; 2026 - e_commerce_web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-dark fw-bold">Lumière</h5>
+                    <p class="small">Elevating your lifestyle with premium quality products designed for the modern world.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-dark fw-bold">Support & Info</h5>
+                    <ul class="list-unstyled small">
+                        <li><a asp-area="" asp-controller="Support" asp-action="Faq" class="text-muted text-decoration-none">FAQ</a></li>
+                        <li><a asp-area="" asp-controller="Support" asp-action="ContactUs" class="text-muted text-decoration-none">Contact Us</a></li>
+                        <li><a asp-area="" asp-controller="Support" asp-action="AboutUs" class="text-muted text-decoration-none">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-dark fw-bold">Legal & Policies</h5>
+                    <ul class="list-unstyled small">
+                        <li><a asp-area="" asp-controller="Support" asp-action="Privacy" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a asp-area="" asp-controller="Support" asp-action="TermsOfService" class="text-muted text-decoration-none">Terms of Service</a></li>
+                        <li><a asp-area="" asp-controller="Support" asp-action="ShippingPolicy" class="text-muted text-decoration-none">Shipping Policy</a></li>
+                        <li><a asp-area="" asp-controller="Support" asp-action="ReturnPolicy" class="text-muted text-decoration-none">Return Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-3 small border-top pt-3">
+                &copy; 2026 - Lumière. All rights reserved.
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
