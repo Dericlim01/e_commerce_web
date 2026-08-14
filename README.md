@@ -2,7 +2,7 @@
 
 A modern E-Commerce web application built with ASP.NET Core MVC and PostgreSQL.
 
-## Prerequisites
+## 📋 Prerequisites
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Docker & Docker Compose](https://www.docker.com/products/docker-desktop)
 
@@ -41,15 +41,30 @@ This runs the web application natively on your machine (allowing for Hot Reload)
 
 When running the application, Entity Framework Core will automatically apply pending migrations and create the schema on startup. 
 
-**Accessing the Docker Database via Terminal (`psql`):**
+### Accessing the Database
+To access the database via the terminal inside the running Docker container:
 ```bash
 docker exec -it ecommerce_postgres psql -U postgres -d ecommerce_db
 ```
 
-**Common Database Commands:**
-- Stop database: `docker compose down`
-- View DB logs: `docker compose logs postgres_db -f`
-- Manual initialization (if running native Postgres instead of Docker):
+### Executing SQL Scripts
+If you need to manually run an SQL script against your database, you can use the `psql` command line tool from your host machine. 
+
+Using command line flags:
+```bash
+psql -U postgres -d ecommerce_db -h localhost -p 5432 -f script.sql
+```
+
+Using a connection URL:
+```bash
+psql "postgresql://postgres:postgres@localhost:5432/ecommerce_db" -f script.sql
+```
+*(Note: Be sure to replace `postgres:postgres` with your actual username and password if they differ).*
+
+### Common Docker Commands
+- **Stop database:** `docker compose down`
+- **View DB logs:** `docker compose logs postgres_db -f`
+- **Manual initialization** (if running native Postgres instead of Docker):
   ```bash
   createdb -U postgres ecommerce_db
   ```
