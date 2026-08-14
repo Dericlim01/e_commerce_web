@@ -1,0 +1,200 @@
+@model e_commerce_web.Models.ProductViewModel
+@{
+    ViewData["Title"] = Model.Name;
+    var relatedProducts = ViewBag.RelatedProducts as List<e_commerce_web.Models.ProductViewModel> ?? new List<e_commerce_web.Models.ProductViewModel>();
+}
+
+<!-- Breadcrumb -->
+<div class="bg-light py-3 border-bottom mb-4">
+    <div class="container-fluid px-4 px-lg-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted">Home</a></li>
+                <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-muted">Shop</a></li>
+                <li class="breadcrumb-item"><a asp-action="Index" asp-route-category="@Model.Category" class="text-decoration-none text-muted">@Model.Category</a></li>
+                <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">@Model.Name</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-fluid px-4 px-lg-5 mb-5 pb-5">
+    <div class="row g-5">
+        
+        <!-- Product Image Gallery (Mock) -->
+        <div class="col-lg-6 col-xl-7">
+            <div class="pdp-image-gallery sticky-top" style="top: 100px; z-index: 1;">
+                <div class="row g-2">
+                    <div class="col-2 d-none d-md-block">
+                        <!-- Thumbnails -->
+                        <div class="d-flex flex-column gap-2">
+                            <img src="@Model.ImageUrl" class="img-fluid rounded border border-2 border-dark" alt="Thumbnail 1">
+                            <div class="ratio ratio-1x1 bg-light rounded d-flex align-items-center justify-content-center text-muted small cursor-pointer" style="border: 2px solid transparent;">
+                                Img 2
+                            </div>
+                            <div class="ratio ratio-1x1 bg-light rounded d-flex align-items-center justify-content-center text-muted small cursor-pointer" style="border: 2px solid transparent;">
+                                Img 3
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-10">
+                        <!-- Main Image -->
+                        <div class="ratio ratio-4x3 bg-light rounded-3 overflow-hidden position-relative shadow-sm pdp-main-img-container">
+                            <img src="@Model.ImageUrl" alt="@Model.Name" class="pdp-main-img" style="object-fit: cover; width: 100%; height: 100%;">
+                            @if(Model.IsNewArrival)
+                            {
+                                <span class="badge bg-dark position-absolute top-0 start-0 m-3 p-2 fs-6">New Arrival</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-lg-6 col-xl-5">
+            <div class="pdp-details ps-lg-3">
+                <div class="text-uppercase tracking-wide text-muted small fw-bold mb-2">@Model.Category</div>
+                <h1 class="display-6 fw-bold mb-3">@Model.Name</h1>
+                
+                <!-- Rating -->
+                <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="text-warning me-2 fs-5">
+                        ★★★★★
+                    </div>
+                    <span class="text-dark fw-bold me-1">@Model.Rating.ToString("0.0")</span>
+                    <span class="text-muted small">(@Model.ReviewCount Reviews)</span>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-end">
+                        <span class="fs-2 fw-bold text-dark me-3">$@Model.Price</span>
+                        @if(Model.OriginalPrice.HasValue && Model.OriginalPrice > Model.Price)
+                        {
+                            <span class="fs-5 text-muted text-decoration-line-through mb-1">$@Model.OriginalPrice</span>
+                            <span class="badge bg-danger ms-3 mb-2 px-2 py-1">Sale</span>
+                        }
+                    </div>
+                    <p class="text-muted small mt-1">Taxes included. Free shipping on orders over $100.</p>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <p class="text-secondary lh-lg">@Model.Description</p>
+                </div>
+
+                <!-- Color/Variant Selection Mockup -->
+                <div class="mb-4">
+                    <label class="fw-bold text-dark mb-2 d-block">Color <span class="text-muted fw-normal ms-1" id="selectedColorText">Default</span></label>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-dark rounded-circle p-3 position-relative border-2" style="background-color: #212529;" title="Black"></button>
+                        <button class="btn btn-outline-light border rounded-circle p-3 shadow-sm" style="background-color: #f8f9fa;" title="White"></button>
+                        <button class="btn btn-outline-light border rounded-circle p-3" style="background-color: #0d6efd;" title="Blue"></button>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Form -->
+                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mb-4 mt-5">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div class="row g-3">
+                        <div class="col-4 col-sm-3">
+                            <label class="visually-hidden" for="quantity">Quantity</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary px-3" type="button" onclick="var q=document.getElementById('quantity'); if(q.value>1) q.value--;">-</button>
+                                <input type="number" name="quantity" class="form-control text-center px-0" id="quantity" value="1" min="1" max="@Model.StockQuantity">
+                                <button class="btn btn-outline-secondary px-3" type="button" onclick="var q=document.getElementById('quantity'); if(q.value<@Model.StockQuantity) q.value++;">+</button>
+                            </div>
+                        </div>
+                        <div class="col-8 col-sm-9">
+                            @if(Model.StockQuantity > 0)
+                            {
+                                <button type="submit" class="btn btn-primary-custom w-100 py-3 text-uppercase fw-bold tracking-wide">
+                                    Add to Cart
+                                </button>
+                                <div class="text-success small mt-2 d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-check-circle-fill me-1" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                    </svg>
+                                    In Stock (@Model.StockQuantity left)
+                                </div>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary w-100 py-3 text-uppercase fw-bold disabled">
+                                    Out of Stock
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Accordion for extra details -->
+                <div class="accordion accordion-flush mt-5 border-top" id="productAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSpecs">
+                            <button class="accordion-button collapsed fw-bold px-0 bg-transparent text-dark shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpecs" aria-expanded="false" aria-controls="collapseSpecs">
+                                Specifications
+                            </button>
+                        </h2>
+                        <div id="collapseSpecs" class="accordion-collapse collapse" aria-labelledby="headingSpecs" data-bs-parent="#productAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                <ul class="list-unstyled lh-lg mb-0">
+                                    <li><strong>Dimensions:</strong> 10 x 5 x 2 inches</li>
+                                    <li><strong>Weight:</strong> 1.2 lbs</li>
+                                    <li><strong>Material:</strong> Premium synthetic</li>
+                                    <li><strong>Warranty:</strong> 1 Year Manufacturer Warranty</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-bottom">
+                        <h2 class="accordion-header" id="headingShipping">
+                            <button class="accordion-button collapsed fw-bold px-0 bg-transparent text-dark shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseShipping" aria-expanded="false" aria-controls="collapseShipping">
+                                Shipping & Returns
+                            </button>
+                        </h2>
+                        <div id="collapseShipping" class="accordion-collapse collapse" aria-labelledby="headingShipping" data-bs-parent="#productAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                <p>Standard shipping takes 3-5 business days. Free returns within 30 days of purchase. Please ensure the item is in its original condition.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products -->
+@if(relatedProducts.Any())
+{
+    <div class="bg-light py-5">
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <h3 class="fw-bold mb-0">You May Also Like</h3>
+                <a asp-action="Index" asp-route-category="@Model.Category" class="text-dark fw-bold text-decoration-none link-primary-hover">View More &rarr;</a>
+            </div>
+            
+            <div class="row g-4">
+                @foreach(var item in relatedProducts)
+                {
+                    <div class="col-6 col-md-4">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none text-dark">
+                            <div class="product-card">
+                                <div class="product-img-wrapper">
+                                    <img src="@item.ImageUrl" alt="@item.Name" class="product-img" loading="lazy">
+                                </div>
+                                <div class="product-info">
+                                    <h5 class="product-title fs-6">@item.Name</h5>
+                                    <p class="product-price fw-bold text-dark mt-2">$@item.Price</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

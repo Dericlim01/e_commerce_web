@@ -1,0 +1,185 @@
+@model IEnumerable<e_commerce_web.Models.ProductViewModel>
+@{
+    ViewData["Title"] = "Shop";
+    var categories = ViewBag.Categories as List<string> ?? new List<string>();
+    var currentCategory = ViewBag.CurrentCategory as string;
+    var currentSort = ViewBag.CurrentSort as string;
+}
+
+<div class="container-fluid mt-4 mb-5 px-4 px-lg-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div>
+            <h1 class="fw-bold mb-1">@(string.IsNullOrEmpty(currentCategory) ? "All Products" : currentCategory)</h1>
+            <p class="text-muted mb-0">Showing @Model.Count() results</p>
+        </div>
+        
+        <!-- Mobile Filter Toggle -->
+        <button class="btn btn-outline-dark d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel me-2" viewBox="0 0 16 16">
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+            </svg>
+            Filters
+        </button>
+
+        <!-- Desktop Sorting -->
+        <div class="d-none d-lg-flex align-items-center">
+            <span class="text-muted me-2 small">Sort by:</span>
+            <form id="sortForm" asp-action="Index" method="get" class="d-inline">
+                @if(!string.IsNullOrEmpty(currentCategory)){
+                    <input type="hidden" name="category" value="@currentCategory" />
+                }
+                <select name="sortOrder" class="form-select form-select-sm border-0 bg-light fw-medium" onchange="document.getElementById('sortForm').submit();" style="width: auto; cursor: pointer;">
+                    <option value="" selected="@(string.IsNullOrEmpty(currentSort))">Featured</option>
+                    <option value="price_asc" selected="@(currentSort == "price_asc")">Price: Low to High</option>
+                    <option value="price_desc" selected="@(currentSort == "price_desc")">Price: High to Low</option>
+                    <option value="newest" selected="@(currentSort == "newest")">Newest Arrivals</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sidebar Filters (Desktop) / Offcanvas (Mobile) -->
+        <aside class="col-lg-3 col-xl-2 mb-4 d-none d-lg-block offcanvas-lg offcanvas-start" id="filterSidebar">
+            <div class="offcanvas-header d-lg-none">
+                <h5 class="offcanvas-title fw-bold">Filters</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#filterSidebar" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body flex-column">
+                
+                <!-- Category Filter -->
+                <div class="filter-section mb-4">
+                    <h6 class="fw-bold text-uppercase text-muted mb-3 small tracking-wide">Categories</h6>
+                    <ul class="list-unstyled mb-0 filter-list">
+                        <li class="mb-2">
+                            <a asp-action="Index" asp-route-sortOrder="@currentSort" 
+                               class="text-decoration-none @(string.IsNullOrEmpty(currentCategory) ? "text-dark fw-bold" : "text-muted hover-dark")">
+                                All Products
+                            </a>
+                        </li>
+                        @foreach(var cat in categories)
+                        {
+                            <li class="mb-2">
+                                <a asp-action="Index" asp-route-category="@cat" asp-route-sortOrder="@currentSort" 
+                                   class="text-decoration-none @(currentCategory == cat ? "text-dark fw-bold" : "text-muted hover-dark")">
+                                    @cat
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Price Filter Mockup -->
+                <div class="filter-section mb-4">
+                    <h6 class="fw-bold text-uppercase text-muted mb-3 small tracking-wide">Price Range</h6>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="price1">
+                        <label class="form-check-label text-muted" for="price1">Under $50</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="price2">
+                        <label class="form-check-label text-muted" for="price2">$50 - $100</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="price3">
+                        <label class="form-check-label text-muted" for="price3">$100 - $200</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="price4">
+                        <label class="form-check-label text-muted" for="price4">Over $200</label>
+                    </div>
+                </div>
+
+                <!-- Clear Filters -->
+                @if(!string.IsNullOrEmpty(currentCategory) || !string.IsNullOrEmpty(currentSort))
+                {
+                    <a asp-action="Index" class="btn btn-outline-dark btn-sm w-100 mt-2">Clear All Filters</a>
+                }
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="col-lg-9 col-xl-10">
+            @if(!Model.Any())
+            {
+                <div class="text-center py-5 empty-state">
+                    <h3 class="fw-bold text-muted">No products found</h3>
+                    <p class="text-muted">Try adjusting your filters or search query.</p>
+                    <a asp-action="Index" class="btn btn-primary-custom mt-3">View All Products</a>
+                </div>
+            }
+            else
+            {
+                <div class="row g-4 product-grid">
+                    @foreach(var item in Model)
+                    {
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none text-dark d-block h-100">
+                                <div class="product-card h-100 d-flex flex-column">
+                                    @if(item.IsNewArrival)
+                                    {
+                                        <div class="product-badge bg-dark">New</div>
+                                    }
+                                    else if(item.IsBestSeller)
+                                    {
+                                        <div class="product-badge">Best Seller</div>
+                                    }
+
+                                    <div class="product-img-wrapper">
+                                        <img src="@item.ImageUrl" alt="@item.Name" class="product-img" loading="lazy">
+                                        
+                                        <!-- Quick Add Overlay -->
+                                        <div class="quick-add-overlay">
+                                            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                                <input type="hidden" name="productId" value="@item.Id" />
+                                                <input type="hidden" name="quantity" value="1" />
+                                                <button type="submit" class="btn btn-light rounded-pill btn-sm shadow-sm quick-add-btn px-3 fw-bold">
+                                                    Quick Add
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="product-info flex-grow-1 d-flex flex-column">
+                                        <div class="product-category">@item.Category</div>
+                                        <h3 class="product-title">@item.Name</h3>
+                                        <div class="mt-auto pt-2 d-flex align-items-center justify-content-between">
+                                            <div class="product-price-container">
+                                                @if(item.OriginalPrice.HasValue && item.OriginalPrice > item.Price)
+                                                {
+                                                    <span class="text-muted text-decoration-line-through small me-2">$@item.OriginalPrice</span>
+                                                }
+                                                <span class="product-price fw-bold">$@item.Price</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-rating mt-1">
+                                            <span class="text-warning small">
+                                                ★ @item.Rating.ToString("0.0")
+                                            </span>
+                                            <span class="text-muted small ms-1">(@item.ReviewCount)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination Mockup -->
+                <nav class="mt-5 pt-3 border-top d-flex justify-content-center" aria-label="Product pagination">
+                    <ul class="pagination pagination-custom">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        </main>
+    </div>
+</div>

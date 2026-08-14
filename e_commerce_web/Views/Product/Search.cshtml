@@ -1,0 +1,92 @@
+@model IEnumerable<e_commerce_web.Models.ProductViewModel>
+@{
+    ViewData["Title"] = "Search Results";
+    var query = ViewBag.Query as string;
+}
+
+<div class="container-fluid mt-4 mb-5 px-4 px-lg-5" style="min-height: 60vh;">
+    <!-- Page Header -->
+    <div class="mb-5 text-center">
+        <h1 class="fw-bold mb-3 display-6">Search Results</h1>
+        @if(!string.IsNullOrWhiteSpace(query))
+        {
+            <p class="text-muted fs-5">Showing results for <span class="fw-bold text-dark">"@query"</span></p>
+        }
+    </div>
+
+    @if(!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5 mx-auto" style="max-width: 500px;">
+            <div class="mb-4 text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </div>
+            <h3 class="fw-bold mb-3">No results found</h3>
+            <p class="text-muted mb-4">We couldn't find anything matching your search. Please try checking your spelling or use more general terms.</p>
+            <form asp-action="Search" method="get" class="d-flex mx-auto shadow-sm rounded-pill overflow-hidden border">
+                <input type="search" name="query" class="form-control border-0 px-4 py-3 shadow-none bg-light" placeholder="Search again..." value="@query">
+                <button type="submit" class="btn btn-dark px-4 rounded-0">Search</button>
+            </form>
+            <div class="mt-5">
+                <p class="text-muted small text-uppercase tracking-wide">Popular Categories</p>
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                    <a asp-action="Index" asp-route-category="Electronics" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Electronics</a>
+                    <a asp-action="Index" asp-route-category="Apparel" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Apparel</a>
+                    <a asp-action="Index" asp-route-category="Accessories" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Accessories</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Results Grid -->
+        <div class="row g-4 product-grid">
+            @foreach(var item in Model)
+            {
+                <div class="col-6 col-md-4 col-xl-3">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none text-dark d-block h-100">
+                        <div class="product-card h-100 d-flex flex-column">
+                            @if(item.IsNewArrival)
+                            {
+                                <div class="product-badge bg-dark">New</div>
+                            }
+                            else if(item.IsBestSeller)
+                            {
+                                <div class="product-badge">Best Seller</div>
+                            }
+
+                            <div class="product-img-wrapper">
+                                <img src="@item.ImageUrl" alt="@item.Name" class="product-img" loading="lazy">
+                                
+                                <div class="quick-add-overlay">
+                                    <button class="btn btn-light rounded-pill btn-sm shadow-sm quick-add-btn px-3 fw-bold" onclick="event.preventDefault(); alert('Added to cart mock!')">
+                                        Quick Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="product-info flex-grow-1 d-flex flex-column">
+                                <div class="product-category">@item.Category</div>
+                                <h3 class="product-title">@item.Name</h3>
+                                <div class="mt-auto pt-2">
+                                    <div class="product-price-container">
+                                        @if(item.OriginalPrice.HasValue && item.OriginalPrice > item.Price)
+                                        {
+                                            <span class="text-muted text-decoration-line-through small me-2">$@item.OriginalPrice</span>
+                                        }
+                                        <span class="product-price fw-bold">$@item.Price</span>
+                                    </div>
+                                    <div class="product-rating mt-1">
+                                        <span class="text-warning small">★ @item.Rating.ToString("0.0")</span>
+                                        <span class="text-muted small ms-1">(@item.ReviewCount)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
