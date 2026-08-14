@@ -14,9 +14,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login/Login"; // Redirect to login page if not authenticated
-        options.LogoutPath = "/Login/Logout"; // Redirect to logout page
-        options.AccessDeniedPath = "/Login/AccessDenied"; // Redirect to access denied page
+        options.LoginPath = "/SignIn"; // Redirect to login page if not authenticated
+        options.LogoutPath = "/SignIn/Logout"; // Redirect to logout page
+        options.AccessDeniedPath = "/Home/AccessDenied"; // Redirect to access denied page
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Set cookie expiration time
     });
 
@@ -36,9 +36,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication(); // <-- MUST be before UseAuthorization
 app.UseAuthorization();
 
 app.MapStaticAssets();
